@@ -3,8 +3,7 @@ import { Button } from '@material-ui/core';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import { Typography } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
-import { SocketContext } from '../SocketContext';
+import { SocketContext } from './socket-context';
 
 const Notifications = () => {
   const { answerCall, call, callAccepted } = useContext(SocketContext);
