@@ -9,7 +9,7 @@ const socket = io(CONNECTION_LINK);
 const ContextProvider = ({ children }) => {
   const [callAccepted, setCallAccepted] = useState(false);
   const [isAudioAvailable, setAudioAvailability] = useState(true);
-  const [isVideoAvailable, setVideoAvailability] = useState(false);
+  const [isVideoAvailable, setVideoAvailability] = useState(true);
   const [callEnded, setCallEnded] = useState(false);
   const [stream, setStream] = useState();
   const [name, setName] = useState('');
