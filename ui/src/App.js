@@ -1,30 +1,31 @@
 import React from 'react';
-import { Typography, AppBar } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import VideoCall from 'src/components/video-call';
+import LoginScreen from 'src/components/login-screen';
+import { ContextProvider } from 'src/socket-context'
 
-import VideoPlayer from './video-player';
-import Sidebar from './sidebar';
-import Notifications from './notification';
-
-const useStyles = makeStyles((theme) => ({
-  wrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '100%',
-  },
-}));
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
 
 const App = () => {
-  const classes = useStyles();
-
   return (
-    <div className={classes.wrapper}>
-      <VideoPlayer />
-      <Sidebar />
-        <Notifications />
+    <Router>
+    <div>
+       <Switch>
+          <Route path="/" exact>
+            <LoginScreen />
+          </Route>
+          <Route path="/call">
+            <ContextProvider>
+              <VideoCall />
+            </ContextProvider>
+          </Route>
+        </Switch>
     </div>
-  );
+    </Router>
+  )
 };
 
 export default App;

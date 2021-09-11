@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
+
 import { Button } from '@material-ui/core';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import { Typography } from '@material-ui/core';
-import { SocketContext } from './socket-context';
+import { SocketContext } from 'src/socket-context';
 
 const Notifications = () => {
   const { answerCall, call, callAccepted } = useContext(SocketContext);
