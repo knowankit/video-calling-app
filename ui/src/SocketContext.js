@@ -3,8 +3,8 @@ import { io } from 'socket.io-client';
 import Peer from 'simple-peer';
 
 const SocketContext = createContext();
-
-const socket = io('http://localhost:5000');
+const CONNECTION_LINK = process.env.NODE_ENV === 'production' ? 'https://video-chat-app-github.herokuapp.com/' : 'http://localhost:5000'
+const socket = io(CONNECTION_LINK);
 
 const ContextProvider = ({ children }) => {
   const [callAccepted, setCallAccepted] = useState(false);
