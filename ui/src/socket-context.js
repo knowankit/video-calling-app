@@ -1,9 +1,13 @@
-import React, { createContext, useState, useRef, useEffect } from 'react';
-import { io } from 'socket.io-client';
-import Peer from 'simple-peer';
+import React, { createContext, useState, useRef, useEffect } from "react";
+import { io } from "socket.io-client";
+import Peer from "simple-peer";
+import { cleanup } from "@testing-library/react";
 
 const SocketContext = createContext();
-const CONNECTION_LINK = process.env.NODE_ENV === 'production' ? 'https://video-chat-app-github.herokuapp.com/' : 'http://localhost:5000'
+const CONNECTION_LINK =
+  process.env.NODE_ENV === "production"
+    ? "https://video-chat-app-github.herokuapp.com/"
+    : "http://localhost:5000";
 const socket = io(CONNECTION_LINK);
 
 const ContextProvider = ({ children }) => {
@@ -12,50 +16,58 @@ const ContextProvider = ({ children }) => {
   const [isVideoAvailable, setVideoAvailability] = useState(true);
   const [callEnded, setCallEnded] = useState(false);
   const [stream, setStream] = useState();
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [call, setCall] = useState({});
-  const [me, setMe] = useState('');
+  const [me, setMe] = useState("");
 
   const myVideo = useRef();
   const userVideo = useRef();
   const connectionRef = useRef();
 
   useEffect(() => {
-    setStream(null)
+    setStream(null);
 
     if (isVideoAvailable || isAudioAvailable) {
-      navigator.mediaDevices.getUserMedia({ video: isVideoAvailable, audio: isAudioAvailable })
-      .then((currentStream) => {
-        setStream(currentStream);
+      navigator.mediaDevices
+        .getUserMedia({ video: isVideoAvailable, audio: isAudioAvailable })
+        .then(currentStream => {
+          setStream(currentStream);
 
-        if(isVideoAvailable) myVideo.current.srcObject = currentStream;
-      });
+          if (isVideoAvailable) myVideo.current.srcObject = currentStream;
+        });
     }
 
-    if(!isVideoAvailable) {
+    if (!isVideoAvailable) {
       stream?.getVideoTracks()[0].stop();
     }
-
   }, [isVideoAvailable, isAudioAvailable]);
 
   useEffect(() => {
-    socket.on('me', (id) => setMe(id));
+    socket.on("me", id => setMe(id));
 
-    socket.on('calluser', ({ from, name: callerName, signal }) => {
+    socket.on("calluser", ({ from, name: callerName, signal }) => {
       setCall({ isReceivingCall: true, from, name: callerName, signal });
     });
-  }, [])
+
+    return function cleanup() {
+      if (!isVideoAvailable) {
+        stream?.getVideoTracks()[0].stop();
+      }
+
+      setStream(null);
+    };
+  }, []);
 
   const answerCall = () => {
     setCallAccepted(true);
 
     const peer = new Peer({ initiator: false, trickle: false, stream });
 
-    peer.on('signal', (data) => {
-      socket.emit('answercall', { signal: data, to: call.from });
+    peer.on("signal", data => {
+      socket.emit("answercall", { signal: data, to: call.from });
     });
 
-    peer.on('stream', (currentStream) => {
+    peer.on("stream", currentStream => {
       userVideo.current.srcObject = currentStream;
     });
 
@@ -64,18 +76,23 @@ const ContextProvider = ({ children }) => {
     connectionRef.current = peer;
   };
 
-  const callUser = (id) => {
+  const callUser = id => {
     const peer = new Peer({ initiator: true, trickle: false, stream });
 
-    peer.on('signal', (data) => {
-      socket.emit('calluser', { userToCall: id, signalData: data, from: me, name });
+    peer.on("signal", data => {
+      socket.emit("calluser", {
+        userToCall: id,
+        signalData: data,
+        from: me,
+        name
+      });
     });
 
-    peer.on('stream', (currentStream) => {
+    peer.on("stream", currentStream => {
       userVideo.current.srcObject = currentStream;
     });
 
-    socket.on('callaccepted', (signal) => {
+    socket.on("callaccepted", signal => {
       setCallAccepted(true);
 
       peer.signal(signal);
@@ -93,24 +110,25 @@ const ContextProvider = ({ children }) => {
   };
 
   return (
-    <SocketContext.Provider value={{
-      isAudioAvailable,
-      isVideoAvailable,
-      setAudioAvailability,
-      setVideoAvailability,
-      call,
-      callAccepted,
-      myVideo,
-      userVideo,
-      stream,
-      name,
-      setName,
-      callEnded,
-      me,
-      callUser,
-      leaveCall,
-      answerCall,
-    }}
+    <SocketContext.Provider
+      value={{
+        isAudioAvailable,
+        isVideoAvailable,
+        setAudioAvailability,
+        setVideoAvailability,
+        call,
+        callAccepted,
+        myVideo,
+        userVideo,
+        stream,
+        name,
+        setName,
+        callEnded,
+        me,
+        callUser,
+        leaveCall,
+        answerCall
+      }}
     >
       {children}
     </SocketContext.Provider>
