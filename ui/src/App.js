@@ -1,19 +1,17 @@
-import React from 'react';
-import VideoCall from 'src/components/video-call';
-import LoginScreen from 'src/components/login-screen';
-import { ContextProvider } from 'src/socket-context'
+import React from "react";
+import VideoCall from "src/components/video-call";
+import LoginScreen from "src/components/login-screen";
+import { ContextProvider } from "src/socket-context";
+import Navigation from "src/components/navigation";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const App = () => {
   return (
     <Router>
-    <div>
-       <Switch>
+      <Navigation />
+      <div>
+        <Switch>
           <Route path="/" exact>
             <LoginScreen />
           </Route>
@@ -23,9 +21,9 @@ const App = () => {
             </ContextProvider>
           </Route>
         </Switch>
-    </div>
+      </div>
     </Router>
-  )
+  );
 };
 
 export default App;
