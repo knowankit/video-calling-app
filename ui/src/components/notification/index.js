@@ -21,12 +21,7 @@ const Notifications = () => {
             <Typography variant="h5" align="center">
               {call.name} is calling
             </Typography>
-            <Button
-              variant="contained"
-              size="xs"
-              color="primary"
-              onClick={answerCall}
-            >
+            <Button variant="contained" color="primary" onClick={answerCall}>
               Answer
             </Button>
           </Alert>

@@ -1,7 +1,6 @@
 import React, { createContext, useState, useRef, useEffect } from "react";
 import { io } from "socket.io-client";
 import Peer from "simple-peer";
-import { cleanup } from "@testing-library/react";
 
 const SocketContext = createContext();
 const CONNECTION_LINK =
@@ -48,14 +47,6 @@ const ContextProvider = ({ children }) => {
     socket.on("calluser", ({ from, name: callerName, signal }) => {
       setCall({ isReceivingCall: true, from, name: callerName, signal });
     });
-
-    return function cleanup() {
-      if (!isVideoAvailable) {
-        stream?.getVideoTracks()[0].stop();
-      }
-
-      setStream(null);
-    };
   }, []);
 
   const answerCall = () => {

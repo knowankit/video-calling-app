@@ -5,7 +5,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import { Typography } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,7 +47,6 @@ const useStyles = makeStyles(theme => ({
 
 const LoginScreen = () => {
   const classes = useStyles();
-  const history = useHistory();
 
   return (
     <Box className={classes.root}>
@@ -69,7 +67,9 @@ const LoginScreen = () => {
             variant="outlined"
             className={classes.button}
             color="secondary"
-            onClick={() => history.push("/call")}
+            onClick={() => {
+              window.location.href = `${window.location.origin}/call`;
+            }}
           >
             JOIN
           </Button>
