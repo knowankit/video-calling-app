@@ -22,7 +22,7 @@ This is a video calling application built for experimenting socket. You can use 
 3. Run `npm run dev` to run the server
 4. Run `cd ui`
 5. Run `npm install` in the ui directory
-6. Run `npm run dev` to start the client
+6. Run `npm start` to start the client
 7. Visit `localhost:3000`
 
 ## What's next 🚀
