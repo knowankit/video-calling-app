@@ -2,7 +2,7 @@
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 
-![alt text](https://github.com/[knowankit]/[video-calling-app]/blob/[develop]/demo.png)
+![alt text](https://github.com/knowankit/video-calling-app/blob/develop/demo.png)
 
 ## Overview
 
