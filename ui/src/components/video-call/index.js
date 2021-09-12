@@ -20,13 +20,11 @@ const App = () => {
 
   return (
     <div className={classes.wrapper}>
-      {process.env.NODE_ENV !== "production" && (
-        <Alert severity="warning">
-          Video calling might not work if multiple people are trying to connect
-          as the server is hosted on free service. You can try couple of times
-          to check or better clone the repo.
-        </Alert>
-      )}
+      <Alert severity="warning">
+        Video calling might not work if multiple people are trying to connect as
+        the server is hosted on free service. You can try couple of times to
+        check or better clone the repo.
+      </Alert>
       <VideoPlayer />
       <Sidebar />
       <Notifications />
