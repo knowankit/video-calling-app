@@ -7,10 +7,14 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import DuoIcon from "@material-ui/icons/Duo";
 import { makeStyles } from "@material-ui/core/styles";
-
+import GitHubIcon from "@material-ui/icons/GitHub";
 const useStyles = makeStyles(theme => ({
   logo: {
     fontSize: "54px"
+  },
+  link: {
+    color: "black",
+    marginLeft: "20px"
   }
 }));
 
@@ -49,7 +53,15 @@ export default function ElevateAppBar(props) {
         <AppBar color="transparent">
           <Toolbar>
             <DuoIcon color="primary" className={styles.logo} />
+
             <Typography variant="h5">Connect</Typography>
+
+            <a
+              href="https://github.com/knowankit/video-calling-app"
+              className={styles.link}
+            >
+              <GitHubIcon />
+            </a>
           </Toolbar>
         </AppBar>
       </ElevationScroll>
